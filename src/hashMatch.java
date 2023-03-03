@@ -11,14 +11,15 @@ public class hashMatch{
         }
     }
     
-    public StringBuilder swap(String inputString, Hashtable<String,String> map){
+    public StringBuilder swap(String inputString, Hashtable<String,String> table){
         StringBuilder newStr = new StringBuilder();
         String[] wordArr = inputString.split(" ");
+
         for (String word: wordArr){
-            if (map.containsKey(word)){
-                word = map.get(word);  
+            if (table.containsKey(word)){
+                word = table.get(word);  
             }
-            newStr.append(word);
+            newStr.append(word + " ");
         }
         System.out.println(newStr);
         return newStr;
@@ -29,7 +30,8 @@ public class hashMatch{
         hashMatch test = new hashMatch();
         Hashtable<String, String> abbreviationMap = new Hashtable<>();
 
-        String sample = "Hello, BTW I need to get a new toothbrush ASAP so I can clean my dirty teeth FYI";
+        // ASAP, is skipped as it is split on space and contains the "," 
+        String sample = "Hello, BTW I need to get a new toothbrush ASAP, so I can clean my dirty teeth FYI";
 
         // add some abbreviations and their corresponding phrases to the hash table
         abbreviationMap.put("ASAP", "As Soon As Possible");
