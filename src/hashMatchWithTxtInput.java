@@ -18,14 +18,17 @@ public class hashMatchWithTxtInput {
     public StringBuilder swap(String inputString, Hashtable<String, String> table) {
         StringBuilder newStr = new StringBuilder();
         String[] wordArr = inputString.split(" |,|\\.|!|\\?|\\(|\\)|\\{|\\}|\\[|\\]");
-
+        System.out.println("In swap function");
         for (String word : wordArr) {
+            System.out.println("Entered for swap");
             if (table.containsKey(word)) {
+                System.out.println("Match");
                 word = table.get(word);
             }
             newStr.append(word + " ");
         }
-        System.out.println(newStr);
+        System.out.println(newStr + "???");
+        System.out.println("!!!");
         return newStr;
     }
 
@@ -34,8 +37,8 @@ public class hashMatchWithTxtInput {
         try (Scanner tweets = new Scanner(new FileInputStream(txtFilePath));) {
             tweets.useDelimiter("");
 			while (tweets.hasNext()) {
-				String line = tweets.next();
-				longTweets += line;
+				String word = tweets.next();
+				longTweets += word;
 			}
             System.out.println(longTweets);
         } catch (IOException e) {
@@ -43,25 +46,43 @@ public class hashMatchWithTxtInput {
         }return longTweets;
     }
 
+    public static Hashtable<String, String> inputAbbrFromTxt(Hashtable<String, String> abbreviationMap, String abbrFilePath) {
+        try (Scanner abbr = new Scanner(new FileInputStream(abbrFilePath));) {
+            abbr.useDelimiter(",|-");
+			for (int i = 0; i < 10; i++) {
+				String abbrKey = abbr.next();
+                String abbrVal = abbr.next();
+                abbreviationMap.put(abbrKey, abbrVal);
+			}
+            System.out.println("Abbr map: " + abbreviationMap);
+        } catch (IOException e) {
+            System.out.println("Error");
+        }
+        return abbreviationMap;
+    }
+
     public static void main(String[] args) {
 
         hashMatch test = new hashMatch();
         Hashtable<String, String> abbreviationMap = new Hashtable<>();
 
-        // Call input from Excel function to receive input in list
+        // Call input from Txt function to receive input in list
         String tweetsList = inputTweetFromTxt("./Sample_Txt_Input.txt");
 
-        // add some abbreviations and their corresponding phrases to the hash table
-        abbreviationMap.put("ASAP", "As Soon As Possible");
-        abbreviationMap.put("FYI", "For Your Information");
-        abbreviationMap.put("ETA", "Estimated Time of Arrival");
-        abbreviationMap.put("BTW", "By The Way");
-        abbreviationMap.put("LOL", "Laugh out loud");
-        abbreviationMap.put("IMO", "In my opinion");
-        abbreviationMap.put("RN", "Right now");
-        abbreviationMap.put("SUS", "Suspicious");
-        abbreviationMap.put("FML", "F*** my life");
-        abbreviationMap.put("GOAT", "Greatest of all time");
+        // Call input from Txt abbreviation list
+        abbreviationMap = inputAbbrFromTxt(abbreviationMap,"./Sample_Txt_Abbr.txt");
+
+        // // add some abbreviations and their corresponding phrases to the hash table
+        // abbreviationMap.put("ASAP", "As Soon As Possible");
+        // abbreviationMap.put("FYI", "For Your Information");
+        // abbreviationMap.put("ETA", "Estimated Time of Arrival");
+        // abbreviationMap.put("BTW", "By The Way");
+        // abbreviationMap.put("LOL", "Laugh out loud");
+        // abbreviationMap.put("IMO", "In my opinion");
+        // abbreviationMap.put("RN", "Right now");
+        // abbreviationMap.put("SUS", "Suspicious");
+        // abbreviationMap.put("FML", "F*** my life");
+        // abbreviationMap.put("GOAT", "Greatest of all time");
 
         // for (String tweet : tweetsList) {
             System.out.println("\nOriginal String: " + tweetsList);
