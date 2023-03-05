@@ -1,5 +1,6 @@
 import java.io.BufferedReader;
 import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
@@ -74,12 +75,35 @@ public class hashMatch {
 		return abbrTable;
 	}
 
+    public Hashtable<String, String> buildTableFromFile(String filePath) {
+		Hashtable<String, String> abbrTable = new Hashtable<>();
+		
+		try {
+			BufferedReader bufferedReader = new BufferedReader(new FileReader(filePath));
+			String line;
+			
+			while ((line = bufferedReader.readLine()) != null) {
+				String[] abbrArr = line.split("-");
+                if(abbrArr[0]!=null && abbrArr[1]!=null){
+                abbrTable.put(abbrArr[0], abbrArr[1]);
+                System.out.println(abbrArr[0] + "-" + abbrArr[1]);
+                }
+			}
+			bufferedReader.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return abbrTable;
+	}
+
     public static void main(String[] args) {
 
         //hashMatch test = new hashMatch();
         hashMatch test2 = new hashMatch();
        // Hashtable<String, String> abbreviationMap = new Hashtable<>();
         Hashtable<String, String> table = new Hashtable<>();
+        Hashtable<String, String> table2 = new Hashtable<>();
 
         // Call input from Excel function to receive input in list
         String tweetsList = inputTweetFromTxt("./Sample_Txt_Input.txt");
@@ -102,6 +126,9 @@ public class hashMatch {
            // test2.swap(tweetsList, abbreviationMap);
             table = test2.buildTable("https://raw.githubusercontent.com/krishnakt031990/Crawl-Wiki-For-Acronyms/master/AcronymsFile.csv");
             test2.swap(tweetsList, table);
+
+            table2 = test2.buildTableFromFile("./Sample_txt_Abbr2.txt");
+            test2.swap(tweetsList, table2);
             System.out.println("we got here Mac");
         // }
     }
