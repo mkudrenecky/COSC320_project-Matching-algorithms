@@ -13,7 +13,7 @@ public class hashMatch{
     
     public StringBuilder swap(String inputString, Hashtable<String,String> table){
         StringBuilder newStr = new StringBuilder();
-        String[] wordArr = inputString.split(" ");
+        String[] wordArr = inputString.split(" |,|\\.|!|\\?|\\(|\\)|\\{|\\}|\\[|\\]");
 
         for (String word: wordArr){
             if (table.containsKey(word)){
@@ -31,7 +31,7 @@ public class hashMatch{
         Hashtable<String, String> abbreviationMap = new Hashtable<>();
 
         // ASAP, is skipped as it is split on space and contains the "," 
-        String sample = "Hello, BTW I need to get a new toothbrush ASAP, so I can clean my dirty teeth FYI";
+        String sample = "Hello, BTW I need to get a new toothbrush ASAP, so I can clean my dirty teeth (FYI)";
 
         // add some abbreviations and their corresponding phrases to the hash table
         abbreviationMap.put("ASAP", "As Soon As Possible");
@@ -42,9 +42,6 @@ public class hashMatch{
         System.out.println("Original String: " + sample);
         System.out.print("New String with abbrs swapped: ");
         test.swap(sample, abbreviationMap);
-
-        // this code kind of works, the output appends all the words without spacing or punctuation so it needs
-        // to be refined. However, the basics are more or less working. Feel free to alter
 
     }
 }
