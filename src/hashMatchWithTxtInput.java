@@ -15,9 +15,9 @@ public class hashMatchWithTxtInput {
         }
     }
 
-    public StringBuilder swap(String inputString, Hashtable<String, String> table) {
+    public StringBuilder swap(StringBuilder inputString, Hashtable<String, String> table) {
         StringBuilder newStr = new StringBuilder();
-        String[] wordArr = inputString.split(" |,|\\.|!|\\?|\\(|\\)|\\{|\\}|\\[|\\]");
+        String[] wordArr = inputString.toString().split(" |,|\\.|!|\\?|\\(|\\)|\\{|\\}|\\[|\\]");
         for (String word : wordArr) {
             if (table.containsKey(word.trim())) {
                 word = table.get(word);
@@ -28,13 +28,13 @@ public class hashMatchWithTxtInput {
         return newStr;
     }
 
-    public static String inputTweetFromTxt(String txtFilePath) {
-        String longTweets = "";
+    public static StringBuilder inputTweetFromTxt(String txtFilePath) {
+        StringBuilder longTweets = new StringBuilder();
         try (Scanner tweets = new Scanner(new FileInputStream(txtFilePath));) {
             tweets.useDelimiter("");
 			while (tweets.hasNext()) {
 				String word = tweets.next();
-				longTweets += word;
+				longTweets.append(word);
 			}
         } catch (IOException e) {
             System.out.println("Error");
@@ -56,12 +56,14 @@ public class hashMatchWithTxtInput {
     }
 
     public static void main(String[] args) {
+        // Start time
+        var startTime = System.currentTimeMillis();
 
         hashMatchWithTxtInput test = new hashMatchWithTxtInput();
         Hashtable<String, String> abbreviationMap = new Hashtable<>();
 
         // Call input from Txt function to receive input in list
-        String tweetsList = inputTweetFromTxt("./Sample_Txt_Input.txt");
+        StringBuilder tweetsList = inputTweetFromTxt("./Sample_Txt_Input.txt");
 
         // Call input from Txt abbreviation list
         abbreviationMap = inputAbbrFromTxt(abbreviationMap,"./Sample_Txt_Abbr.txt");
@@ -71,5 +73,9 @@ public class hashMatchWithTxtInput {
             System.out.print("\nNew String: ");
             test.swap(tweetsList, abbreviationMap);
         // }
+
+        // Finish time
+        var finishTime = System.currentTimeMillis();
+        System.out.println("Total runtime for algorithm: " + (finishTime - startTime) + "ms");
     }
 }
