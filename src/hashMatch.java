@@ -29,13 +29,15 @@ public class hashMatch {
     // method to read in data from txt file - provides workable data
     public static String inputTweetFromTxt(String txtFilePath) {
         String longTweets = "";
+        int count=0;
         try (Scanner tweets = new Scanner(new FileInputStream(txtFilePath));) {
             tweets.useDelimiter("");
-			while (tweets.hasNext()) {
+			while (tweets.hasNext() && count<50000) {
 				String line = tweets.next();
 				longTweets += line;
+                count++;
 			}
-            System.out.println(longTweets);
+            //System.out.println(longTweets);
         } catch (IOException e) {
             System.out.println("Error");
         }return longTweets;
@@ -99,20 +101,29 @@ public class hashMatch {
 
         // Call input from Excel function to receive input in list
         String tweetsList = inputTweetFromTxt("./Sample_Txt_Input.txt");
+        String partialData = inputTweetFromTxt("./dataset.csv");
 
             System.out.println("\nOriginal String: " + tweetsList);
 
             table = test2.buildTable("https://raw.githubusercontent.com/krishnakt031990/Crawl-Wiki-For-Acronyms/master/AcronymsFile.csv");
-            test2.swap(tweetsList, table);
-
+        
             // comparison done with hashtable built from text file.
             System.out.println("New string using txt file table:");
             table2 = test2.buildTableFromFile("./Sample_txt_Abbr2.txt");
-            test2.swap(tweetsList, table2);
             
             // this call uses table built from URL - only 'AAC' is swapped, as the count reaches 50 and the build ceases - this is to avoid the null value which crashes
             // the swap function and hashtable are working, but the null value needs to fixed
             System.out.println("New string using URL build table:");
             test2.swap(tweetsList,table);
+
+            // call to view out of partial data set with abbr table from text file (50000 chars)
+            System.out.println("Test with partial data and txt table:");
+            test2.swap(partialData, table2);
+
+            // call to view output of partial data set with abbr table from URL file (50000 chars)
+            System.out.println("Test with partial data and URL table:");
+            test2.swap(partialData, table);
+
+
     }
 }
