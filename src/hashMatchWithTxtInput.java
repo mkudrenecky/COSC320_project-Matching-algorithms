@@ -6,20 +6,11 @@ public class hashMatchWithTxtInput {
 
     Hashtable<Integer, String> abbrTable = new Hashtable<>();
 
-    public void buildHashTable(String[] abbrList) {
-        for (String word : abbrList) {
-            int key = word.hashCode();
-            // we can use hashCode or not, can also just use the string as the key (as is
-            // done in the sample below)
-            abbrTable.put(key, word);
-        }
-    }
-
     public StringBuilder swap(StringBuilder inputString, Hashtable<String, String> table) {
         StringBuilder newStr = new StringBuilder();
         String[] wordArr = inputString.toString().split(" |,|\\.|!|\\?|\\(|\\)|\\{|\\}|\\[|\\]");
         for (String word : wordArr) {
-            if (table.containsKey(word.trim())) {
+            if (table.containsKey(word)) {
                 word = table.get(word);
             }
             newStr.append(word + " ");
