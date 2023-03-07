@@ -27,20 +27,34 @@ public class hashMatch {
     }
 
     // method to read in data from txt file - provides workable data
-    public static String inputTweetFromTxt(String txtFilePath) {
+    public static String inputTweetFromTxt(String filePath) {
         String longTweets = "";
-        int count=0;
-        try (Scanner tweets = new Scanner(new FileInputStream(txtFilePath));) {
+
+        // this try/catch code block reads by line instead of word but loses structure of text - alternative to code block below
+        // try {
+		// 	BufferedReader bufferedReader = new BufferedReader(new FileReader(filePath));
+		// 	String line;
+			
+		// 	while ((line = bufferedReader.readLine()) != null) {
+        //         longTweets += line;     
+        //         //System.out.println(abbrArr[0] + "-" + abbrArr[1]);
+		// 	}
+		// 	bufferedReader.close();
+		// } catch (Exception e) {
+		// 	e.printStackTrace();
+		// }
+
+        try (Scanner tweets = new Scanner(new FileInputStream(filePath));) {
             tweets.useDelimiter("");
-			while (tweets.hasNext() && count<50000) {
+			while (tweets.hasNext()) {
 				String line = tweets.next();
 				longTweets += line;
-                count++;
 			}
             //System.out.println(longTweets);
         } catch (IOException e) {
             System.out.println("Error");
-        }return longTweets;
+        }
+        return longTweets;
     }
 
     // method to build hash table using data from the abbreviations URL
@@ -101,7 +115,7 @@ public class hashMatch {
 
         // Call input from Excel function to receive input in list
         String tweetsList = inputTweetFromTxt("./Sample_Txt_Input.txt");
-        String partialData = inputTweetFromTxt("./dataset.csv");
+        //String partialData = inputTweetFromTxt("./dataset.csv"); //dataset not currently stored - uncomment for testing local
 
             System.out.println("\nOriginal String: " + tweetsList);
 
@@ -116,13 +130,13 @@ public class hashMatch {
             System.out.println("New string using URL build table:");
             test2.swap(tweetsList,table);
 
-            // call to view out of partial data set with abbr table from text file (50000 chars)
-            System.out.println("Test with partial data and txt table:");
-            test2.swap(partialData, table2);
+            // call to view out of partial data set with abbr table from text file 
+            //System.out.println("Test with partial data and txt table:");
+            //test2.swap(partialData, table2);
 
-            // call to view output of partial data set with abbr table from URL file (50000 chars)
-            System.out.println("Test with partial data and URL table:");
-            test2.swap(partialData, table);
+            // call to view output of partial data set with abbr table from URL file 
+           // System.out.println("Test with partial data and URL table:");
+            //test2.swap(partialData, table);
 
 
     }
