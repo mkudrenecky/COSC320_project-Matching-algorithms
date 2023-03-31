@@ -11,7 +11,7 @@ public class trieMatch{
 
 // Java implementation of search and insert operations
 // on Trie
-public class Trie {
+static class Trie {
 	
 	// Alphabet size (# of symbols)
 	static final int ALPHABET_SIZE = 256;
@@ -30,6 +30,7 @@ public class Trie {
 			isEndOfWord = false;
 			for (int i = 0; i < ALPHABET_SIZE; i++)
 				children[i] = null;
+			value="";
 		}
 	};
 	
@@ -60,8 +61,8 @@ public class Trie {
 		pCrawl.value = value; // set value at leaf node to corresponding phrase!
 	}
 	
-	// Returns true if key presents in trie, else false
-	 static boolean search(String key)
+	// Returns value if key presents in trie, else null
+	 static String search(String key)
 	{
 		int level;
 		int length = key.length();
@@ -73,12 +74,12 @@ public class Trie {
 			index = key.charAt(level);
 	
 			if (pCrawl.children[index] == null)
-				return false;
+				return null;
 	
 			pCrawl = pCrawl.children[index];
 		}
 	
-		return (pCrawl.isEndOfWord);
+		return (pCrawl.value);
 	}
 
 	public static void buildTrie(String theUrl) {
@@ -107,21 +108,53 @@ public class Trie {
 
 	}
 
-	// public static StringBuilder swap(String inputString) {
-    //     StringBuilder newStr = new StringBuilder();
-    //     String[] wordArr = inputString.split(" |,|\\.|!|\\?|\\(|\\)|\\{|\\}|\\[|\\]");
+	public static StringBuilder swap(String inputString) {
+        StringBuilder newStr = new StringBuilder();
+        String[] wordArr = inputString.split(" |,|\\.|!|\\?|\\(|\\)|\\{|\\}|\\[|\\]");
 
-    //     for (String word : wordArr) {
-    //         if (search(word)) {
-    //             word = value;
-    //         }
-    //         newStr.append(word + " ");
-    //     }
-    //     System.out.println(newStr);
-    //     return newStr;
-    // }
+        for (String word : wordArr) {
+            if (search(word)!=null) {
+                word = search(word);
+            }
+            newStr.append(word + " ");
+        }
+        System.out.println(newStr);
+        return newStr;
+    }
+
+	// method to read in data from txt file - provides workable data
+    public static String inputTweetFromTxt(String filePath) {
+        String longTweets = "";
+
+        // this try/catch code block reads by line instead of word but loses structure of text - alternative to code block below
+        try {
+			BufferedReader bufferedReader = new BufferedReader(new FileReader(filePath));
+			String line;
+			
+			while ((line = bufferedReader.readLine()) != null) {
+                longTweets += line;     
+                //System.out.println(abbrArr[0] + "-" + abbrArr[1]);
+			}
+			bufferedReader.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+        // try (Scanner tweets = new Scanner(new FileInputStream(filePath));) {
+        //     tweets.useDelimiter("");
+		// 	while (tweets.hasNext()) {
+		// 		String line = tweets.next();
+		// 		longTweets += line;
+		// 	}
+        //     //System.out.println(longTweets);
+        // } catch (IOException e) {
+        //     System.out.println("Error");
+        // }
+        return longTweets;
+    }
 	
 	// Driver
+	
 	public static void main(String args[])
 	{
 
@@ -131,16 +164,17 @@ public class Trie {
 		root = new TrieNode();
 
 		 buildTrie("https://raw.githubusercontent.com/krishnakt031990/Crawl-Wiki-For-Acronyms/master/AcronymsFile.csv");
-		 if(search("AAP") == true)
-		 	System.out.println("AAP --- " + output[1]);
-		else System.out.println("AAP --- " + output[0]);
 
-		if(search("hello") == true)
-		 	System.out.println("hello --- " + output[1]);
-		else System.out.println("hello --- " + output[0]);
-	
+		 // Testing functionality:
+		 String result = search("AAP");
+		 System.out.println("HERE IS THE RESULT: "+ result);
+		 
+		 String result2 = search("Hello");
+		 System.out.println("HERE IS THE 2nd RESULT: "+ result2);
+
+		 String tweetsList = inputTweetFromTxt("Sample_Txt_Input.txt");	
+		 System.out.println("Here is the result using swap: ");
+		 swap(tweetsList);
  }
 }
-// This code is contributed by Sumit Ghosh
-
 }
