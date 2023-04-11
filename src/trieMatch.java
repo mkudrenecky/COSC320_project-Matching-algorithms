@@ -108,6 +108,24 @@ static class Trie {
 
 	}
 
+	 // method to build hash table from input file
+	 public void buildTrieFromFile(String filePath) {
+		
+		try {
+			BufferedReader bufferedReader = new BufferedReader(new FileReader(filePath));
+			String line;
+			
+			while ((line = bufferedReader.readLine()) != null) {
+				String[] abbrArr = line.split("-");     
+                insert(abbrArr[0], abbrArr[1]);
+                System.out.println(abbrArr[0] + "-" + abbrArr[1]);
+			}
+			bufferedReader.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public static StringBuilder swap(String inputString) {
         StringBuilder newStr = new StringBuilder();
         String[] wordArr = inputString.split(" |,|\\.|!|\\?|\\(|\\)|\\{|\\}|\\[|\\]");
