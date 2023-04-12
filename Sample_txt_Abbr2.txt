@@ -89,7 +89,7 @@ YSK-You Should Know
 YW-You’re Welcome 
 ACCT-Account
 ACK-Acknowledge 
-AFK-Away From Computer 
+AFK-Away From Computer
 ​​API-Application Program Interface
 B2C-Business To Consumer
 B2B-Business To Business
