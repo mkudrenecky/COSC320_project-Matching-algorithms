@@ -14,7 +14,7 @@ public class trieMatch{
 static class Trie {
 	
 	// Alphabet size (# of symbols)
-	static final int ALPHABET_SIZE = 256;
+	static final int ALPHABET_SIZE = 10000;
 	
 	// trie node
 	static class TrieNode
@@ -93,19 +93,39 @@ static class Trie {
 			BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
 			String line;
 
-			while ((line = bufferedReader.readLine()) != null && count<50) {
+			while ((line = bufferedReader.readLine()) != null) {
 				String[] abbrArr = line.split("-");
                 if(abbrArr[0]!=null && abbrArr[1]!=null){
                 insert(abbrArr[0], abbrArr[1]);
                 System.out.println(abbrArr[0] + "-" + abbrArr[1]);
                 }
-                count++;        //counter implemented to offset code reaching an abbreviation with no phrase which crashes
+                       //counter implemented to offset code reaching an abbreviation with no phrase which crashes
 			}
 			bufferedReader.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
+	}
+
+	 // method to build hash table from input file
+	 public static void buildTrieFromFile(String filePath) {
+		
+		try {
+			BufferedReader bufferedReader = new BufferedReader(new FileReader(filePath));
+			String line;
+			
+			while ((line = bufferedReader.readLine()) != null) {
+				String[] abbrArr = line.split("-");
+				if(abbrArr[0]!=null && abbrArr[1]!=null){     
+                insert(abbrArr[0], abbrArr[1]);
+                System.out.println(abbrArr[0] + "-" + abbrArr[1]);
+			}
+		}
+			bufferedReader.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	public static StringBuilder swap(String inputString) {
@@ -163,10 +183,10 @@ static class Trie {
 	
 		root = new TrieNode();
 
-		 buildTrie("https://raw.githubusercontent.com/krishnakt031990/Crawl-Wiki-For-Acronyms/master/AcronymsFile.csv");
-
+		//buildTrie("https://raw.githubusercontent.com/krishnakt031990/Crawl-Wiki-For-Acronyms/master/AcronymsFile.csv");
+		 buildTrieFromFile("./Sample_Txt_Abbr2.txt");
 		 // Testing functionality:
-		 String result = search("AAP");
+		 String result = search("ASAP");
 		 System.out.println("HERE IS THE RESULT: "+ result);
 		 
 		 String result2 = search("Hello");
